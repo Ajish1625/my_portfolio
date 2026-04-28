@@ -39,185 +39,184 @@ class _HeroSectionState extends State<HeroSection>
     super.dispose();
   }
 
+  Widget _heroContent(BuildContext context, Size size) {
+    return FadeTransition(
+      opacity: _fadeIn,
+      child: SlideTransition(
+        position: _slideIn,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFF00E5CC), width: 1),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                '> FLUTTER DEVELOPER',
+                style: GoogleFonts.jetBrainsMono(
+                  fontSize: 11,
+                  color: const Color(0xFF00E5CC),
+                  letterSpacing: 3,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Ajish',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: size.width > 700 ? 72 : 52,
+                fontWeight: FontWeight.w900,
+                color: Colors.white,
+                height: 1.0,
+              ),
+            ),
+            ShaderMask(
+              shaderCallback: (bounds) => const LinearGradient(
+                colors: [Color(0xFF00E5CC), Color(0xFF0096FF)],
+              ).createShader(bounds),
+              child: Text(
+                'Kumar K',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: size.width > 700 ? 72 : 52,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  height: 1.0,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Text(
+                  'I build ',
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 18,
+                    color: Colors.white60,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'cross-platform apps.',
+                      textStyle: GoogleFonts.spaceGrotesk(
+                        fontSize: 18,
+                        color: const Color(0xFF00E5CC),
+                        fontWeight: FontWeight.w600,
+                      ),
+                      speed: const Duration(milliseconds: 80),
+                    ),
+                    TypewriterAnimatedText(
+                      'beautiful UIs.',
+                      textStyle: GoogleFonts.spaceGrotesk(
+                        fontSize: 18,
+                        color: const Color(0xFFFF6B35),
+                        fontWeight: FontWeight.w600,
+                      ),
+                      speed: const Duration(milliseconds: 80),
+                    ),
+                    TypewriterAnimatedText(
+                      'Flutter magic.',
+                      textStyle: GoogleFonts.spaceGrotesk(
+                        fontSize: 18,
+                        color: const Color(0xFFB388FF),
+                        fontWeight: FontWeight.w600,
+                      ),
+                      speed: const Duration(milliseconds: 80),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '4+ years crafting robust mobile experiences\nfor iOS & Android with Flutter & Dart.',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 14,
+                color: Colors.white38,
+                height: 1.7,
+              ),
+            ),
+            const SizedBox(height: 40),
+            Row(
+              children: [
+                _CTAButton(label: 'View My Work', isPrimary: true, onTap: widget.onExplore),
+                const SizedBox(width: 16),
+                _CTAButton(label: 'Get In Touch', isPrimary: false, onTap: widget.onExplore),
+              ],
+            ),
+            const SizedBox(height: 52),
+            Row(
+              children: [
+                _StatChip(value: '4+', label: 'Years Exp.'),
+                const SizedBox(width: 32),
+                _StatChip(value: '6+', label: 'Projects'),
+                const SizedBox(width: 32),
+                _StatChip(value: '35%', label: 'Perf. Gains'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: size.height,
       child: Stack(
         children: [
-          // Glowing orb
           Positioned(
-            top: size.height * 0.2,
+            top: size.height * 0.15,
             right: -100,
-            child: _GlowOrb(color: const Color(0xFF00E5CC), size: 400),
+            child: _GlowOrb(color: const Color(0xFF00E5CC), size: 350),
           ),
           Positioned(
             bottom: size.height * 0.1,
             left: -80,
-            child: _GlowOrb(color: const Color(0xFFFF6B35), size: 250),
+            child: _GlowOrb(color: const Color(0xFFFF6B35), size: 220),
           ),
-
-          // Main content
           Padding(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top + 80,
               left: 32,
               right: 32,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: size.width > 700
+                ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Expanded(child: _heroContent(context, size)),
+                const SizedBox(width: 48),
                 FadeTransition(
                   opacity: _fadeIn,
-                  child: SlideTransition(
-                    position: _slideIn,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Greeting
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFF00E5CC), width: 1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            '> FLUTTER DEVELOPER',
-                            style: GoogleFonts.jetBrainsMono(
-                              fontSize: 11,
-                              color: const Color(0xFF00E5CC),
-                              letterSpacing: 3,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-
-                        // Name
-                        Text(
-                          'Ajish',
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: size.width > 600 ? 80 : 56,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            height: 1.0,
-                          ),
-                        ),
-                        Text(
-                          'Kumar K',
-                          style: GoogleFonts.playfairDisplay(
-                            fontSize: size.width > 600 ? 80 : 56,
-                            fontWeight: FontWeight.w900,
-                            foreground: Paint()
-                              ..shader = const LinearGradient(
-                                colors: [Color(0xFF00E5CC), Color(0xFF0096FF)],
-                              ).createShader(Rect.fromLTWH(0, 0, 400, 100)),
-                            height: 1.0,
-                          ),
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // Animated role
-                        Row(
-                          children: [
-                            Text(
-                              'I build ',
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 20,
-                                color: Colors.white60,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                            AnimatedTextKit(
-                              repeatForever: true,
-                              animatedTexts: [
-                                TypewriterAnimatedText(
-                                  'cross-platform apps.',
-                                  textStyle: GoogleFonts.spaceGrotesk(
-                                    fontSize: 20,
-                                    color: const Color(0xFF00E5CC),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  speed: const Duration(milliseconds: 80),
-                                ),
-                                TypewriterAnimatedText(
-                                  'beautiful UIs.',
-                                  textStyle: GoogleFonts.spaceGrotesk(
-                                    fontSize: 20,
-                                    color: const Color(0xFFFF6B35),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  speed: const Duration(milliseconds: 80),
-                                ),
-                                TypewriterAnimatedText(
-                                  'Flutter magic.',
-                                  textStyle: GoogleFonts.spaceGrotesk(
-                                    fontSize: 20,
-                                    color: const Color(0xFFB388FF),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  speed: const Duration(milliseconds: 80),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        Text(
-                          '4+ years crafting robust mobile experiences\nfor iOS & Android with Flutter & Dart.',
-                          style: GoogleFonts.spaceGrotesk(
-                            fontSize: 15,
-                            color: Colors.white38,
-                            height: 1.7,
-                          ),
-                        ),
-
-                        const SizedBox(height: 48),
-
-                        // CTA buttons
-                        Row(
-                          children: [
-                            _CTAButton(
-                              label: 'View My Work',
-                              isPrimary: true,
-                              onTap: widget.onExplore,
-                            ),
-                            const SizedBox(width: 16),
-                            _CTAButton(
-                              label: 'Get In Touch',
-                              isPrimary: false,
-                              onTap: widget.onExplore,
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 64),
-
-                        // Stats row
-                        Row(
-                          children: [
-                            _StatChip(value: '4+', label: 'Years Exp.'),
-                            const SizedBox(width: 32),
-                            _StatChip(value: '6+', label: 'Projects'),
-                            const SizedBox(width: 32),
-                            _StatChip(value: '35%', label: 'Perf. Gains'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: const _ProfileImage(),
                 ),
               ],
+            )
+                : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: FadeTransition(
+                      opacity: _fadeIn,
+                      child: const _ProfileImage(),
+                    ),
+                  ),
+                  const SizedBox(height: 36),
+                  _heroContent(context, size),
+                ],
+              ),
             ),
           ),
-
-          // Scroll indicator
           Positioned(
             bottom: 32,
             left: 0,
@@ -245,6 +244,142 @@ class _HeroSectionState extends State<HeroSection>
     );
   }
 }
+
+// ── Profile Image ──────────────────────────────────────────────────────────────
+
+class _ProfileImage extends StatefulWidget {
+  const _ProfileImage();
+
+  @override
+  State<_ProfileImage> createState() => _ProfileImageState();
+}
+
+class _ProfileImageState extends State<_ProfileImage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulse;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
+
+  List<Widget> _accentDots() {
+    final positions = [
+      const Offset(0, -145),
+      const Offset(145, 0),
+      const Offset(0, 145),
+      const Offset(-145, 0),
+    ];
+    final colors = [
+      const Color(0xFF00E5CC),
+      const Color(0xFFFF6B35),
+      const Color(0xFFB388FF),
+      const Color(0xFF00E5CC),
+    ];
+    return List.generate(4, (i) {
+      return Transform.translate(
+        offset: positions[i],
+        child: Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: colors[i],
+            boxShadow: [
+              BoxShadow(color: colors[i].withOpacity(0.8), blurRadius: 8),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _pulse,
+      builder: (_, __) {
+        return SizedBox(
+          width: 300,
+          height: 300,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Outer pulsing glow
+              Container(
+                width: 290,
+                height: 290,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF00E5CC)
+                          .withOpacity(0.08 + _pulse.value * 0.12),
+                      blurRadius: 40 + _pulse.value * 30,
+                      spreadRadius: 10 + _pulse.value * 10,
+                    ),
+                  ],
+                ),
+              ),
+              // Rotating gradient ring
+              Transform.rotate(
+                angle: _pulse.value * math.pi * 2,
+                child: Container(
+                  width: 272,
+                  height: 272,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: SweepGradient(
+                      colors: [
+                        Color(0xFF00E5CC),
+                        Color(0xFF0096FF),
+                        Color(0xFFB388FF),
+                        Color(0x0000E5CC),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Dark gap ring
+              Container(
+                width: 264,
+                height: 264,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFF0A0A0F),
+                ),
+              ),
+              // Photo
+              ClipOval(
+                child: Image.asset(
+                  'assets/images/ajish.jpg',
+                  width: 254,
+                  height: 254,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                ),
+              ),
+              // Accent dots
+              ..._accentDots(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ── Supporting widgets ─────────────────────────────────────────────────────────
 
 class _GlowOrb extends StatelessWidget {
   final Color color;
@@ -274,12 +409,7 @@ class _CTAButton extends StatefulWidget {
   final String label;
   final bool isPrimary;
   final VoidCallback onTap;
-
-  const _CTAButton({
-    required this.label,
-    required this.isPrimary,
-    required this.onTap,
-  });
+  const _CTAButton({required this.label, required this.isPrimary, required this.onTap});
 
   @override
   State<_CTAButton> createState() => _CTAButtonState();
@@ -303,9 +433,7 @@ class _CTAButtonState extends State<_CTAButton> {
                 ? (_hovered ? const Color(0xFF00E5CC) : const Color(0xFF00E5CC).withOpacity(0.9))
                 : Colors.transparent,
             border: Border.all(
-              color: widget.isPrimary
-                  ? const Color(0xFF00E5CC)
-                  : Colors.white30,
+              color: widget.isPrimary ? const Color(0xFF00E5CC) : Colors.white30,
               width: 1,
             ),
             borderRadius: BorderRadius.circular(4),
@@ -315,9 +443,7 @@ class _CTAButtonState extends State<_CTAButton> {
             style: GoogleFonts.jetBrainsMono(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: widget.isPrimary
-                  ? const Color(0xFF0A0A0F)
-                  : Colors.white60,
+              color: widget.isPrimary ? const Color(0xFF0A0A0F) : Colors.white60,
               letterSpacing: 1.5,
             ),
           ),
@@ -340,7 +466,7 @@ class _StatChip extends StatelessWidget {
         Text(
           value,
           style: GoogleFonts.playfairDisplay(
-            fontSize: 32,
+            fontSize: 30,
             fontWeight: FontWeight.w900,
             color: const Color(0xFF00E5CC),
           ),
@@ -348,7 +474,7 @@ class _StatChip extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.jetBrainsMono(
-            fontSize: 10,
+            fontSize: 9,
             color: Colors.white38,
             letterSpacing: 1.5,
           ),
