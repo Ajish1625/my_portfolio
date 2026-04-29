@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PortfolioNavBar extends StatelessWidget {
   final List<String> sections;
@@ -12,6 +16,29 @@ class PortfolioNavBar extends StatelessWidget {
     required this.activeIndex,
     required this.onTap,
   });
+
+  Future<void> _downloadResume(BuildContext context) async {
+    try {
+      final byteData = await rootBundle.load('assets/resume/AjishKumar_resume.pdf');
+      final buffer = byteData.buffer;
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/AjishKumar_resume.pdf';
+      await File(filePath).writeAsBytes(
+        buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
+      );
+      await OpenFile.open(filePath);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not open resume: $e',
+                style: GoogleFonts.spaceGrotesk(fontSize: 13)),
+            backgroundColor: const Color(0xFF1A1A24),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +81,9 @@ class PortfolioNavBar extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                // Nav items (show on wider screens)
-                if (MediaQuery.of(context).size.width > 600)
+
+                // Nav items
+                if (MediaQuery.of(context).size.width > 700)
                   Row(
                     children: List.generate(sections.length, (i) {
                       final isActive = i == activeIndex;
@@ -78,11 +106,12 @@ class PortfolioNavBar extends StatelessWidget {
                           child: Text(
                             sections[i],
                             style: GoogleFonts.jetBrainsMono(
-                              fontSize: 12,
-                              fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
+                              fontSize: 11,
+                              fontWeight:
+                                  isActive ? FontWeight.w700 : FontWeight.w400,
                               color: isActive
                                   ? const Color(0xFF00E5CC)
-                                  : Colors.white54,
+                                  : Colors.white38,
                               letterSpacing: 1.5,
                             ),
                           ),
@@ -90,8 +119,69 @@ class PortfolioNavBar extends StatelessWidget {
                       );
                     }),
                   ),
+
+                const SizedBox(width: 24),
+
+                // Resume button
+                _ResumeButton(onTap: () => _downloadResume(context)),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ResumeButton extends StatefulWidget {
+  final VoidCallback onTap;
+  const _ResumeButton({required this.onTap});
+
+  @override
+  State<_ResumeButton> createState() => _ResumeButtonState();
+}
+
+class _ResumeButtonState extends State<_ResumeButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: _hovered
+                ? const Color(0xFF00E5CC)
+                : const Color(0xFF00E5CC).withOpacity(0.12),
+            border: Border.all(
+              color: const Color(0xFF00E5CC).withOpacity(0.6),
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.download_rounded,
+                size: 13,
+                color: _hovered ? const Color(0xFF0A0A0F) : const Color(0xFF00E5CC),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                'Resume',
+                style: GoogleFonts.jetBrainsMono(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: _hovered ? const Color(0xFF0A0A0F) : const Color(0xFF00E5CC),
+                  letterSpacing: 1,
+                ),
+              ),
+            ],
           ),
         ),
       ),

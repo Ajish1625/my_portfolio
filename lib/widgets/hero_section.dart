@@ -25,10 +25,12 @@ class _HeroSectionState extends State<HeroSection>
       duration: const Duration(milliseconds: 1200),
     );
     _fadeIn = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.2, 1.0, curve: Curves.easeOut)),
+      CurvedAnimation(parent: _controller,
+          curve: const Interval(0.2, 1.0, curve: Curves.easeOut)),
     );
     _slideIn = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.2, 1.0, curve: Curves.easeOutCubic)),
+      CurvedAnimation(parent: _controller,
+          curve: const Interval(0.2, 1.0, curve: Curves.easeOutCubic)),
     );
     _controller.forward();
   }
@@ -143,9 +145,17 @@ class _HeroSectionState extends State<HeroSection>
             const SizedBox(height: 40),
             Row(
               children: [
-                _CTAButton(label: 'View My Work', isPrimary: true, onTap: widget.onExplore),
+                _CTAButton(
+                  label: 'View My Work',
+                  isPrimary: true,
+                  onTap: widget.onExplore,
+                ),
                 const SizedBox(width: 16),
-                _CTAButton(label: 'Get In Touch', isPrimary: false, onTap: widget.onExplore),
+                _CTAButton(
+                  label: 'Get In Touch',
+                  isPrimary: false,
+                  onTap: widget.onExplore,
+                ),
               ],
             ),
             const SizedBox(height: 52),
@@ -191,31 +201,31 @@ class _HeroSectionState extends State<HeroSection>
             ),
             child: size.width > 700
                 ? Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(child: _heroContent(context, size)),
-                const SizedBox(width: 48),
-                FadeTransition(
-                  opacity: _fadeIn,
-                  child: const _ProfileImage(),
-                ),
-              ],
-            )
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(child: _heroContent(context, size)),
+                      const SizedBox(width: 48),
+                      FadeTransition(
+                        opacity: _fadeIn,
+                        child: const _ProfileImage(),
+                      ),
+                    ],
+                  )
                 : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: FadeTransition(
-                      opacity: _fadeIn,
-                      child: const _ProfileImage(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: FadeTransition(
+                            opacity: _fadeIn,
+                            child: const _ProfileImage(),
+                          ),
+                        ),
+                        const SizedBox(height: 36),
+                        _heroContent(context, size),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 36),
-                  _heroContent(context, size),
-                ],
-              ),
-            ),
           ),
           Positioned(
             bottom: 32,
@@ -245,7 +255,7 @@ class _HeroSectionState extends State<HeroSection>
   }
 }
 
-// ── Profile Image ──────────────────────────────────────────────────────────────
+// ── Profile Image with animated ring ──────────────────────────────────────────
 
 class _ProfileImage extends StatefulWidget {
   const _ProfileImage();
@@ -409,7 +419,8 @@ class _CTAButton extends StatefulWidget {
   final String label;
   final bool isPrimary;
   final VoidCallback onTap;
-  const _CTAButton({required this.label, required this.isPrimary, required this.onTap});
+  const _CTAButton(
+      {required this.label, required this.isPrimary, required this.onTap});
 
   @override
   State<_CTAButton> createState() => _CTAButtonState();
@@ -430,7 +441,9 @@ class _CTAButtonState extends State<_CTAButton> {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           decoration: BoxDecoration(
             color: widget.isPrimary
-                ? (_hovered ? const Color(0xFF00E5CC) : const Color(0xFF00E5CC).withOpacity(0.9))
+                ? (_hovered
+                    ? const Color(0xFF00E5CC)
+                    : const Color(0xFF00E5CC).withOpacity(0.9))
                 : Colors.transparent,
             border: Border.all(
               color: widget.isPrimary ? const Color(0xFF00E5CC) : Colors.white30,
@@ -443,7 +456,9 @@ class _CTAButtonState extends State<_CTAButton> {
             style: GoogleFonts.jetBrainsMono(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: widget.isPrimary ? const Color(0xFF0A0A0F) : Colors.white60,
+              color: widget.isPrimary
+                  ? const Color(0xFF0A0A0F)
+                  : Colors.white60,
               letterSpacing: 1.5,
             ),
           ),

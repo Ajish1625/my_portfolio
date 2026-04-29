@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/hero_section.dart';
@@ -9,6 +8,7 @@ import '../widgets/skills_section.dart';
 import '../widgets/projects_section.dart';
 import '../widgets/contact_section.dart';
 import '../widgets/nav_bar.dart';
+import '../widgets/scroll_reveal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,27 +41,64 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sections = [heroKey, aboutKey, experienceKey, skillsKey, projectsKey, contactKey];
-    final sectionNames = ['Home', 'About', 'Experience', 'Skills', 'Projects', 'Contact'];
+    final sections = [
+      heroKey, aboutKey, experienceKey, skillsKey, projectsKey, contactKey
+    ];
+    final sectionNames = [
+      'Home', 'About', 'Experience', 'Skills', 'Projects', 'Contact'
+    ];
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A0F),
       body: Stack(
         children: [
-          // Background grid
           const _BackgroundParticles(),
 
-          // Main content
           SingleChildScrollView(
             controller: _scrollController,
             child: Column(
               children: [
-                HeroSection(key: heroKey, onExplore: () => _scrollToSection(aboutKey)),
-                AboutSection(key: aboutKey),
-                ExperienceSection(key: experienceKey),
-                SkillsSection(key: skillsKey),
-                ProjectsSection(key: projectsKey),
-                ContactSection(key: contactKey),
+                // Hero — no reveal, already has its own entrance animation
+                HeroSection(
+                  key: heroKey,
+                  onExplore: () => _scrollToSection(aboutKey),
+                ),
+
+                // About
+                ScrollReveal(
+                  direction: RevealDirection.fromBottom,
+                  duration: const Duration(milliseconds: 700),
+                  child: AboutSection(key: aboutKey),
+                ),
+
+                // Experience
+                ScrollReveal(
+                  direction: RevealDirection.fromLeft,
+                  duration: const Duration(milliseconds: 700),
+                  child: ExperienceSection(key: experienceKey),
+                ),
+
+                // Skills — staggered feel with slight delay
+                ScrollReveal(
+                  direction: RevealDirection.fromBottom,
+                  delay: const Duration(milliseconds: 100),
+                  duration: const Duration(milliseconds: 700),
+                  child: SkillsSection(key: skillsKey),
+                ),
+
+                // Projects
+                ScrollReveal(
+                  direction: RevealDirection.fromRight,
+                  duration: const Duration(milliseconds: 700),
+                  child: ProjectsSection(key: projectsKey),
+                ),
+
+                // Contact
+                ScrollReveal(
+                  direction: RevealDirection.fromBottom,
+                  duration: const Duration(milliseconds: 700),
+                  child: ContactSection(key: contactKey),
+                ),
               ],
             ),
           ),
@@ -85,6 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// ── Animated Particle Background ──────────────────────────────────────────────
 
 class _BackgroundParticles extends StatefulWidget {
   const _BackgroundParticles();
@@ -143,8 +182,8 @@ class _Particle {
         color = rand.nextBool()
             ? const Color(0xFF00E5CC)
             : rand.nextBool()
-            ? const Color(0xFFFF6B35)
-            : const Color(0xFFB388FF);
+                ? const Color(0xFFFF6B35)
+                : const Color(0xFFB388FF);
 
   void update() {
     x += vx;
@@ -176,7 +215,6 @@ class _ParticlePainter extends CustomPainter {
       final pos = Offset(p.x * size.width, p.y * size.height);
       canvas.drawCircle(pos, p.radius, paint);
 
-      // Draw connection lines between nearby particles
       for (int j = i + 1; j < particles.length; j++) {
         final q = particles[j];
         final qPos = Offset(q.x * size.width, q.y * size.height);

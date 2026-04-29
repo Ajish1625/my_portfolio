@@ -36,6 +36,7 @@ class SkillCategory {
 }
 
 
+
 final List<Experience> experiences = [
   Experience(
     company: 'MindMade Technologies',
@@ -92,7 +93,7 @@ final List<Project> projects = [
   ),
   Project(
     name: 'Fortune Automation',
-    description: 'Live tracking management system',
+    description: 'Industrial automation management system',
     icon: '⚙️',
   ),
   Project(
